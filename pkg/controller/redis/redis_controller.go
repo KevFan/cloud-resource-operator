@@ -3,7 +3,6 @@ package redis
 import (
 	"context"
 	"fmt"
-
 	croType "github.com/integr8ly/cloud-resource-operator/pkg/apis/integreatly/v1alpha1/types"
 	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
 

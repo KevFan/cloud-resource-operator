@@ -3,11 +3,10 @@ package smtpcredentialset
 import (
 	"context"
 	types2 "github.com/integr8ly/cloud-resource-operator/pkg/apis/integreatly/v1alpha1/types"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
 	"reflect"
 	"testing"
 	"time"
-
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
 
 	"github.com/integr8ly/cloud-resource-operator/pkg/apis/integreatly/v1alpha1"
 

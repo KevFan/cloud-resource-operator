@@ -3,8 +3,8 @@ package postgres
 import (
 	"context"
 	"fmt"
-
 	croType "github.com/integr8ly/cloud-resource-operator/pkg/apis/integreatly/v1alpha1/types"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources/cluster"
 	"k8s.io/client-go/kubernetes"
 
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
@@ -35,7 +35,7 @@ var log = logf.Log.WithName("controller_postgres")
 // Add creates a new Postgres Controller and adds it to the Manager. The Manager will set fields on the Controller
 // and Start it when the Manager is Started.
 func Add(mgr manager.Manager) error {
-	clientSet, err := resources.GetK8Client()
+	clientSet, err := cluster.GetK8Client()
 	if err != nil {
 		return errorUtil.Wrap(err, "failed to build client set")
 	}

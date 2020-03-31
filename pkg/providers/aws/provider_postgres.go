@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources/cluster"
 	"strconv"
 	"time"
 
@@ -266,7 +267,7 @@ func (p *PostgresProvider) TagRDSPostgres(ctx context.Context, cr *v1alpha1.Post
 	defaultOrganizationTag := resources.GetOrganizationTag()
 
 	//get Cluster Id
-	clusterID, _ := resources.GetClusterID(ctx, p.Client)
+	clusterID, _ := cluster.GetClusterID(ctx, p.Client)
 	// Set the Tag values
 
 	rdsTag := []*rds.Tag{
@@ -720,7 +721,7 @@ func (p *PostgresProvider) configureRDSVpc(ctx context.Context, rdsSvc rdsiface.
 	}
 
 	// get cluster id
-	clusterID, err := resources.GetClusterID(ctx, p.Client)
+	clusterID, err := cluster.GetClusterID(ctx, p.Client)
 	if err != nil {
 		return errorUtil.Wrap(err, "error getting cluster id")
 	}
@@ -773,7 +774,7 @@ func buildPostgresGenericMetricLabels(cr *v1alpha1.Postgres, instance *rds.DBIns
 func (p *PostgresProvider) exposePostgresMetrics(ctx context.Context, cr *v1alpha1.Postgres, instance *rds.DBInstance) {
 	// get Cluster Id
 	logrus.Info("setting postgres information metric")
-	clusterID, err := resources.GetClusterID(ctx, p.Client)
+	clusterID, err := cluster.GetClusterID(ctx, p.Client)
 	if err != nil {
 		logrus.Error(fmt.Sprintf("failed to get cluster id while exposing information metric for %s", *instance.DBInstanceIdentifier))
 		return
@@ -797,7 +798,7 @@ func (p *PostgresProvider) exposePostgresMetrics(ctx context.Context, cr *v1alph
 
 func (p *PostgresProvider) setPostgresServiceMaintenanceMetric(ctx context.Context, cr *v1alpha1.Postgres, rdsSession rdsiface.RDSAPI, instance *rds.DBInstance) {
 	logrus.Info("checking for pending postgres service updates")
-	clusterID, err := resources.GetClusterID(ctx, p.Client)
+	clusterID, err := cluster.GetClusterID(ctx, p.Client)
 	if err != nil {
 		logrus.Error(fmt.Sprintf("failed to get cluster id while exposing information metric for %s", *instance.DBInstanceIdentifier))
 		return
@@ -835,7 +836,7 @@ func (p *PostgresProvider) setPostgresServiceMaintenanceMetric(ctx context.Conte
 func (p *PostgresProvider) createRDSConnectionMetric(ctx context.Context, cr *v1alpha1.Postgres, instance *rds.DBInstance) {
 	// return cluster id needed for metric labels
 	logrus.Infof("testing and exposing postgres connection metric for: %s", *instance.DBInstanceIdentifier)
-	clusterID, err := resources.GetClusterID(ctx, p.Client)
+	clusterID, err := cluster.GetClusterID(ctx, p.Client)
 	if err != nil {
 		logrus.Errorf("failed to get cluster id while exposing connection metric for %s", *instance.DBInstanceIdentifier)
 

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources/cluster"
 	"strings"
 	"time"
 
@@ -60,13 +61,13 @@ type PostgresProvider struct {
 	Client        client.Client
 	Logger        *logrus.Entry
 	ConfigManager ConfigManager
-	PodCommander  resources.PodCommander
+	PodCommander  cluster.PodCommander
 }
 
 func NewOpenShiftPostgresProvider(client client.Client, cs *kubernetes.Clientset, logger *logrus.Entry) *PostgresProvider {
 	return &PostgresProvider{
 		Client:        client,
-		PodCommander:  &resources.OpenShiftPodCommander{ClientSet: cs},
+		PodCommander:  &cluster.OpenShiftPodCommander{ClientSet: cs},
 		Logger:        logger.WithFields(logrus.Fields{"provider": postgresProviderName}),
 		ConfigManager: NewDefaultConfigManager(client),
 	}

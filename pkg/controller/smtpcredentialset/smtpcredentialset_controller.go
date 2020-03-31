@@ -2,7 +2,6 @@ package smtpcredentialset
 
 import (
 	"context"
-
 	croType "github.com/integr8ly/cloud-resource-operator/pkg/apis/integreatly/v1alpha1/types"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers/openshift"
 	"github.com/integr8ly/cloud-resource-operator/pkg/resources"

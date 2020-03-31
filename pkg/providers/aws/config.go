@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources/cluster"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -144,7 +145,7 @@ func (m *ConfigMapConfigManager) buildDefaultConfigMap() *v1.ConfigMap {
 // BuildSubnetGroupName builds and returns an id used for infra resources
 func BuildInfraName(ctx context.Context, c client.Client, postfix string, n int) (string, error) {
 	// get cluster id
-	clusterID, err := resources.GetClusterID(ctx, c)
+	clusterID, err := cluster.GetClusterID(ctx, c)
 	if err != nil {
 		return "", errorUtil.Wrap(err, "error getting clusterID")
 	}
@@ -152,7 +153,7 @@ func BuildInfraName(ctx context.Context, c client.Client, postfix string, n int)
 }
 
 func BuildInfraNameFromObject(ctx context.Context, c client.Client, om controllerruntime.ObjectMeta, n int) (string, error) {
-	clusterID, err := resources.GetClusterID(ctx, c)
+	clusterID, err := cluster.GetClusterID(ctx, c)
 	if err != nil {
 		return "", errorUtil.Wrap(err, "failed to retrieve cluster identifier")
 	}
@@ -160,7 +161,7 @@ func BuildInfraNameFromObject(ctx context.Context, c client.Client, om controlle
 }
 
 func buildTimestampedInfraNameFromObject(ctx context.Context, c client.Client, om controllerruntime.ObjectMeta, n int) (string, error) {
-	clusterID, err := resources.GetClusterID(ctx, c)
+	clusterID, err := cluster.GetClusterID(ctx, c)
 	if err != nil {
 		return "", errorUtil.Wrap(err, "failed to retrieve timestamped cluster identifier")
 	}
@@ -169,7 +170,7 @@ func buildTimestampedInfraNameFromObject(ctx context.Context, c client.Client, o
 }
 
 func BuildTimestampedInfraNameFromObjectCreation(ctx context.Context, c client.Client, om controllerruntime.ObjectMeta, n int) (string, error) {
-	clusterID, err := resources.GetClusterID(ctx, c)
+	clusterID, err := cluster.GetClusterID(ctx, c)
 	if err != nil {
 		return "", errorUtil.Wrap(err, "failed to retrieve timestamped cluster identifier")
 	}
@@ -204,7 +205,7 @@ func GetRegionFromStrategyOrDefault(ctx context.Context, c client.Client, strate
 }
 
 func getDefaultRegion(ctx context.Context, c client.Client) (string, error) {
-	region, err := resources.GetAWSRegion(ctx, c)
+	region, err := cluster.GetAWSRegion(ctx, c)
 	if err != nil {
 		return "", errorUtil.Wrap(err, "failed to retrieve region from cluster")
 	}

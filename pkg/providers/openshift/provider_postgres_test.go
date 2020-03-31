@@ -3,13 +3,12 @@ package openshift
 import (
 	"context"
 	"fmt"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources/cluster"
 	"reflect"
 	"testing"
 	"time"
 
 	types2 "github.com/integr8ly/cloud-resource-operator/pkg/apis/integreatly/v1alpha1/types"
-
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
 
 	controllerruntime "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
@@ -139,8 +138,8 @@ func buildTestConfigManager(strategy string) *ConfigManagerMock {
 	}
 }
 
-func buildTestPodCommander() resources.PodCommander {
-	return &resources.PodCommanderMock{
+func buildTestPodCommander() cluster.PodCommander {
+	return &cluster.PodCommanderMock{
 		ExecIntoPodFunc: func(dpl *appsv1.Deployment, cmd string) error {
 			return nil
 		},
@@ -157,7 +156,7 @@ func TestOpenShiftPostgresProvider_CreatePostgres(t *testing.T) {
 		Client        client.Client
 		Logger        *logrus.Entry
 		ConfigManager ConfigManager
-		PodCommander  resources.PodCommander
+		PodCommander  cluster.PodCommander
 	}
 	type args struct {
 		ctx      context.Context

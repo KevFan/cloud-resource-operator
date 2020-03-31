@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-
 	"github.com/integr8ly/cloud-resource-operator/pkg/annotations"
 	croType "github.com/integr8ly/cloud-resource-operator/pkg/apis/integreatly/v1alpha1/types"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources/cluster"
 
 	"time"
 
@@ -187,7 +187,7 @@ func (p *BlobStorageProvider) TagBlobStorage(ctx context.Context, bucketName str
 
 	// set tag values that will always be added
 	defaultOrganizationTag := resources.GetOrganizationTag()
-	clusterID, err := resources.GetClusterID(ctx, p.Client)
+	clusterID, err := cluster.GetClusterID(ctx, p.Client)
 	if err != nil {
 		errMsg := "failed to get cluster id"
 		return croType.StatusMessage(errMsg), errorUtil.Wrapf(err, errMsg)

@@ -1,4 +1,4 @@
-package resources
+package cluster
 
 import (
 	"bytes"

@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2"
 	"github.com/aws/aws-sdk-go/service/ec2/ec2iface"
 	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources/cluster"
 	"github.com/sirupsen/logrus"
 	"reflect"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -31,7 +32,7 @@ const (
 func configureSecurityGroup(ctx context.Context, c client.Client, ec2Svc ec2iface.EC2API) error {
 	logrus.Info("ensuring security group is correct for resource")
 	// get cluster id
-	clusterID, err := resources.GetClusterID(ctx, c)
+	clusterID, err := cluster.GetClusterID(ctx, c)
 	if err != nil {
 		return errorUtil.Wrap(err, "error getting cluster id")
 	}
@@ -241,7 +242,7 @@ func createPrivateSubnet(ctx context.Context, c client.Client, ec2Svc ec2iface.E
 func tagPrivateSubnet(ctx context.Context, c client.Client, ec2Svc ec2iface.EC2API, sub *ec2.Subnet) error {
 	logrus.Info(fmt.Sprintf("adding tags to subnet %s", *sub.SubnetId))
 	// get cluster id
-	clusterID, err := resources.GetClusterID(ctx, c)
+	clusterID, err := cluster.GetClusterID(ctx, c)
 	if err != nil {
 		return errorUtil.Wrap(err, "error getting clusterID")
 	}
@@ -355,7 +356,7 @@ func getVpc(ctx context.Context, c client.Client, ec2Svc ec2iface.EC2API) (*ec2.
 	}
 
 	// get cluster id
-	clusterID, err := resources.GetClusterID(ctx, c)
+	clusterID, err := cluster.GetClusterID(ctx, c)
 	if err != nil {
 		return nil, errorUtil.Wrap(err, "error getting clusterID")
 	}

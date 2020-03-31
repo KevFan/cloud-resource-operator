@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources/cluster"
 	"strconv"
 	"time"
 
@@ -264,7 +265,7 @@ func (p *RedisProvider) TagElasticacheNode(ctx context.Context, cacheSvc elastic
 
 	// set the tag values that will always be added
 	organizationTag := resources.GetOrganizationTag()
-	clusterID, err := resources.GetClusterID(ctx, p.Client)
+	clusterID, err := cluster.GetClusterID(ctx, p.Client)
 	if err != nil {
 		errMsg := "failed to get cluster id"
 		return croType.StatusMessage(errMsg), errorUtil.Wrapf(err, errMsg)
@@ -633,7 +634,7 @@ func buildRedisInfoMetricLables(r *v1alpha1.Redis, cache *elasticache.Replicatio
 // used to expose an available and information metrics during reconcile
 func (p *RedisProvider) exposeRedisMetrics(ctx context.Context, cr *v1alpha1.Redis, instance *elasticache.ReplicationGroup) {
 	logrus.Info("setting redis information metric")
-	clusterID, err := resources.GetClusterID(ctx, p.Client)
+	clusterID, err := cluster.GetClusterID(ctx, p.Client)
 	if err != nil {
 		logrus.Error(fmt.Sprintf("failed to get cluster id while exposing information metrics for %s", *instance.ReplicationGroupId))
 		return
@@ -659,7 +660,7 @@ func (p *RedisProvider) exposeRedisMetrics(ctx context.Context, cr *v1alpha1.Red
 func (p *RedisProvider) setRedisServiceMaintenanceMetric(ctx context.Context, cr *v1alpha1.Redis, cacheSvc elasticacheiface.ElastiCacheAPI, instance *elasticache.ReplicationGroup) {
 	// info about the elasticache cluster to be created
 	logrus.Info("checking for pending redis service updates")
-	clusterID, err := resources.GetClusterID(ctx, p.Client)
+	clusterID, err := cluster.GetClusterID(ctx, p.Client)
 	if err != nil {
 		logrus.Error(fmt.Sprintf("failed to get cluster information while exposing maintenance metric for %s", *instance.ReplicationGroupId))
 		return
@@ -698,7 +699,7 @@ func (p *RedisProvider) setRedisServiceMaintenanceMetric(ctx context.Context, cr
 func (p *RedisProvider) createElasticacheConnectionMetric(ctx context.Context, cr *v1alpha1.Redis, cache *elasticache.ReplicationGroup) {
 	// return cluster id needed for metric labels
 	logrus.Infof("testing and exposing redis connection metric for: %s", *cache.ReplicationGroupId)
-	clusterID, err := resources.GetClusterID(ctx, p.Client)
+	clusterID, err := cluster.GetClusterID(ctx, p.Client)
 	if err != nil {
 		logrus.Errorf("failed to get cluster id while exposing connection metric for %s", *cache.ReplicationGroupId)
 	}
