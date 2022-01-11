@@ -15,8 +15,8 @@ require (
 	github.com/hashicorp/go-version v1.2.1
 	github.com/lib/pq v1.7.0
 	github.com/mattn/go-runewidth v0.0.9 // indirect
-	github.com/onsi/ginkgo v1.12.1
-	github.com/onsi/gomega v1.10.2
+	github.com/onsi/ginkgo v1.16.4
+	github.com/onsi/gomega v1.17.0
 	github.com/opencontainers/runtime-spec v1.0.0 // indirect
 	github.com/openshift/api v3.9.1-0.20190424152011-77b8897ec79a+incompatible
 	github.com/openshift/cloud-credential-operator v0.0.0-20190812222907-ec6f38d73a79
@@ -25,7 +25,6 @@ require (
 	github.com/prometheus/client_golang v1.5.1
 	github.com/sirupsen/logrus v1.6.0
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e
-	golang.org/x/tools v0.0.0-20200815165600-90abf76919f3 // indirect
 	k8s.io/api v0.18.8
 	k8s.io/apiextensions-apiserver v0.18.8
 	k8s.io/apimachinery v0.18.8
