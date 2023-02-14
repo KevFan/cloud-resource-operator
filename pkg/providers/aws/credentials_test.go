@@ -3,8 +3,8 @@ package aws
 import (
 	"context"
 	"errors"
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
-	moqClient "github.com/integr8ly/cloud-resource-operator/pkg/client/fake"
+	"github.com/kevfan/cloud-resource-operator/internal/k8sutil"
+	moqClient "github.com/kevfan/cloud-resource-operator/pkg/client/fake"
 	v1 "github.com/openshift/cloud-credential-operator/pkg/apis/cloudcredential/v1"
 	v12 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"

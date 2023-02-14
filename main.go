@@ -28,16 +28,16 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	apis "github.com/integr8ly/cloud-resource-operator/apis"
-	v1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
-	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	blobstorageController "github.com/integr8ly/cloud-resource-operator/controllers/blobstorage"
-	cloudmetricsController "github.com/integr8ly/cloud-resource-operator/controllers/cloudmetrics"
-	postgresController "github.com/integr8ly/cloud-resource-operator/controllers/postgres"
-	postgressnapshotController "github.com/integr8ly/cloud-resource-operator/controllers/postgressnapshot"
-	redisController "github.com/integr8ly/cloud-resource-operator/controllers/redis"
-	redissnapshotController "github.com/integr8ly/cloud-resource-operator/controllers/redissnapshot"
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
+	blobstorageController "github.com/kevfan/cloud-resource-operator/controllers/blobstorage"
+	cloudmetricsController "github.com/kevfan/cloud-resource-operator/controllers/cloudmetrics"
+	postgresController "github.com/kevfan/cloud-resource-operator/controllers/postgres"
+	postgressnapshotController "github.com/kevfan/cloud-resource-operator/controllers/postgressnapshot"
+	redisController "github.com/kevfan/cloud-resource-operator/controllers/redis"
+	redissnapshotController "github.com/kevfan/cloud-resource-operator/controllers/redissnapshot"
+	"github.com/kevfan/cloud-resource-operator/internal/k8sutil"
+	apis "github.com/kevfan/cloud-resource-operator/apis"
+	v1 "github.com/kevfan/cloud-resource-operator/apis/config/v1"
+	integreatlyv1alpha1 "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	// +kubebuilder:scaffold:imports
 )
 

@@ -3,29 +3,30 @@ package aws
 import (
 	"context"
 	"errors"
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
-	moqClient "github.com/integr8ly/cloud-resource-operator/pkg/client/fake"
-	k8sTypes "k8s.io/apimachinery/pkg/types"
 	"os"
 	"testing"
 	"time"
 
-	crov1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
+	"github.com/kevfan/cloud-resource-operator/internal/k8sutil"
+	moqClient "github.com/kevfan/cloud-resource-operator/pkg/client/fake"
+	k8sTypes "k8s.io/apimachinery/pkg/types"
+
+	crov1 "github.com/kevfan/cloud-resource-operator/apis/config/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	controllerruntime "sigs.k8s.io/controller-runtime"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	croapis "github.com/integr8ly/cloud-resource-operator/apis"
+	croapis "github.com/kevfan/cloud-resource-operator/apis"
 	"github.com/openshift/cloud-credential-operator/pkg/apis"
 	cloudcredentialv1 "github.com/openshift/cloud-credential-operator/pkg/apis/cloudcredential/v1"
 	corev1 "k8s.io/api/core/v1"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 

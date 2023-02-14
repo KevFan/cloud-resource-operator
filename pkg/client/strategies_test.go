@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	croAWS "github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
+	croAWS "github.com/kevfan/cloud-resource-operator/pkg/providers/aws"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"

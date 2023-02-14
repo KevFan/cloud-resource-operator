@@ -16,20 +16,20 @@ import (
 
 	"github.com/aws/aws-sdk-go/service/sts"
 	"github.com/aws/aws-sdk-go/service/sts/stsiface"
-	"github.com/integr8ly/cloud-resource-operator/pkg/annotations"
+	"github.com/kevfan/cloud-resource-operator/pkg/annotations"
 
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 
 	"github.com/aws/aws-sdk-go/service/elasticache/elasticacheiface"
 	"github.com/sirupsen/logrus"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/elasticache"
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	"k8s.io/apimachinery/pkg/util/wait"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
 
 	errorUtil "github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"

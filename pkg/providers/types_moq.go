@@ -5,8 +5,8 @@ package providers
 
 import (
 	"context"
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	"sync"
 	"time"
 )

@@ -3,7 +3,8 @@ package e2e
 import (
 	goctx "context"
 	"fmt"
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	bv1 "k8s.io/api/batch/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"

@@ -5,7 +5,7 @@ package aws
 
 import (
 	"context"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
 	"sync"
 )
 

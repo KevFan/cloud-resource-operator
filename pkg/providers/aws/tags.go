@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/elasticache"
 	"github.com/aws/aws-sdk-go/service/rds"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
 	errorUtil "github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )

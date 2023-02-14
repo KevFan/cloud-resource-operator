@@ -11,7 +11,7 @@ import (
 
 	v1 "k8s.io/api/core/v1"
 
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 
 	controllerruntime "sigs.k8s.io/controller-runtime"
 
@@ -22,14 +22,14 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	appsv1 "k8s.io/api/apps/v1"
 	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
 	errorUtil "github.com/pkg/errors"
 
 	k8serr "k8s.io/apimachinery/pkg/api/errors"

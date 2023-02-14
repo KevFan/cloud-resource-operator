@@ -4,14 +4,14 @@ import (
 	goctx "context"
 	"fmt"
 
-	t1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	t1 "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/wait"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 
 	errorUtil "github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

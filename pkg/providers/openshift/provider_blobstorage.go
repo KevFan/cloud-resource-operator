@@ -2,13 +2,14 @@ package openshift
 
 import (
 	"context"
-	"k8s.io/apimachinery/pkg/api/errors"
 	"time"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
+	"k8s.io/apimachinery/pkg/api/errors"
+
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers/aws"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	"github.com/sirupsen/logrus"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"

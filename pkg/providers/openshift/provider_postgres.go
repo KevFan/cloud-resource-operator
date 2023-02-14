@@ -7,13 +7,13 @@ import (
 	"strings"
 	"time"
 
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 
 	"k8s.io/client-go/kubernetes"
 
 	"k8s.io/apimachinery/pkg/types"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
 
 	errorUtil "github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -27,8 +27,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 

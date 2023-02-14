@@ -8,9 +8,9 @@ import (
 	"reflect"
 	"time"
 
-	configv1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
-	moqClient "github.com/integr8ly/cloud-resource-operator/pkg/client/fake"
+	"github.com/kevfan/cloud-resource-operator/internal/k8sutil"
+	moqClient "github.com/kevfan/cloud-resource-operator/pkg/client/fake"
+	configv1 "github.com/kevfan/cloud-resource-operator/apis/config/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8sTypes "k8s.io/apimachinery/pkg/types"
 
@@ -19,10 +19,10 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2/ec2iface"
 	"github.com/aws/aws-sdk-go/service/sts"
 	"github.com/aws/aws-sdk-go/service/sts/stsiface"
-	croApis "github.com/integr8ly/cloud-resource-operator/apis"
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
+	croApis "github.com/kevfan/cloud-resource-operator/apis"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
@@ -34,7 +34,7 @@ import (
 	controllerruntime "sigs.k8s.io/controller-runtime"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/sirupsen/logrus"

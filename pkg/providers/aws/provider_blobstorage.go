@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-	"github.com/integr8ly/cloud-resource-operator/pkg/annotations"
+	"github.com/kevfan/cloud-resource-operator/pkg/annotations"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 
 	"github.com/aws/aws-sdk-go/aws/awserr"
 
@@ -21,15 +21,15 @@ import (
 	"github.com/sirupsen/logrus"
 	"k8s.io/apimachinery/pkg/util/wait"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
 
 	"github.com/aws/aws-sdk-go/aws"
 
 	"github.com/aws/aws-sdk-go/service/s3"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	errorUtil "github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )

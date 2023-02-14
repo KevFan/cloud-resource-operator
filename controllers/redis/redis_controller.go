@@ -21,12 +21,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/openshift"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers/aws"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers/openshift"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	errorUtil "github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	corev1 "k8s.io/api/core/v1"
@@ -41,7 +41,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 
-	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	integreatlyv1alpha1 "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 )
 
 var log = logf.Log.WithName("controller_redis")

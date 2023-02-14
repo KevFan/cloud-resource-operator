@@ -8,14 +8,14 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/service/cloudwatch"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers/aws"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
 	controllerruntime "sigs.k8s.io/controller-runtime"
 
-	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	integreatlyv1alpha1 "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	k8sclient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/handler"

@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
+	"github.com/kevfan/cloud-resource-operator/internal/k8sutil"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
 
 	controllerruntime "sigs.k8s.io/controller-runtime"
 

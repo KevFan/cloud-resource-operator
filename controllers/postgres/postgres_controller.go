@@ -19,20 +19,21 @@ package postgres
 import (
 	"context"
 	"fmt"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
 
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers/aws"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/openshift"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
+
+	"github.com/kevfan/cloud-resource-operator/pkg/providers/openshift"
 
 	"time"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
 	"github.com/sirupsen/logrus"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	errorUtil "github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
 
@@ -47,7 +48,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 
-	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	integreatlyv1alpha1 "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 )
 
 var log = logf.Log.WithName("controller_postgres")

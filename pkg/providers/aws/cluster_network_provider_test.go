@@ -7,8 +7,9 @@ import (
 	"fmt"
 	"net"
 	"reflect"
-	controllerruntime "sigs.k8s.io/controller-runtime"
 	"testing"
+
+	controllerruntime "sigs.k8s.io/controller-runtime"
 
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	errorUtil "github.com/pkg/errors"
@@ -20,9 +21,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/elasticache/elasticacheiface"
 	"github.com/aws/aws-sdk-go/service/rds"
 	"github.com/aws/aws-sdk-go/service/rds/rdsiface"
-	v12 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
+	v12 "github.com/kevfan/cloud-resource-operator/apis/config/v1"
 	"github.com/sirupsen/logrus"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"

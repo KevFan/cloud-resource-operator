@@ -21,16 +21,16 @@ import (
 	"fmt"
 	"time"
 
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/openshift"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers/openshift"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers/aws"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
 	errorUtil "github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -43,7 +43,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 
-	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	integreatlyv1alpha1 "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 )
 
 var log = logf.Log.WithName("controller_blobstorage")

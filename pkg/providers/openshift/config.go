@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
+	"github.com/kevfan/cloud-resource-operator/internal/k8sutil"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
 
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
+	"github.com/kevfan/cloud-resource-operator/pkg/providers"
 	errorUtil "github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/types"

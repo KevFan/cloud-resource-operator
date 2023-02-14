@@ -1,8 +1,8 @@
 package apis
 
 import (
-	v1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	v1 "github.com/kevfan/cloud-resource-operator/apis/config/v1"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	creds "github.com/openshift/cloud-credential-operator/pkg/apis/cloudcredential/v1"
 )
 

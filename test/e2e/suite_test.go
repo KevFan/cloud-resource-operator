@@ -19,8 +19,8 @@ package e2e
 import (
 	"testing"
 
-	configv1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
-	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	configv1 "github.com/kevfan/cloud-resource-operator/apis/config/v1"
+	integreatlyv1alpha1 "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"k8s.io/client-go/kubernetes/scheme"

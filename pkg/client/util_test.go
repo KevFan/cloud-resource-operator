@@ -6,17 +6,17 @@ import (
 	"reflect"
 	"testing"
 
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	croType "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/integr8ly/cloud-resource-operator/apis"
+	"github.com/kevfan/cloud-resource-operator/apis"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )

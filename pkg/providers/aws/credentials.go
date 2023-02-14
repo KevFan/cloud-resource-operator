@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"fmt"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	"github.com/kevfan/cloud-resource-operator/pkg/resources"
 	"time"
 
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -14,7 +14,7 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
+	"github.com/kevfan/cloud-resource-operator/internal/k8sutil"
 	v1 "github.com/openshift/cloud-credential-operator/pkg/apis/cloudcredential/v1"
 	errorUtil "github.com/pkg/errors"
 	v12 "k8s.io/api/core/v1"

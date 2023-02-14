@@ -1,6 +1,6 @@
 # Cloud Resource Operator
 
-[![codecov](https://codecov.io/gh/integr8ly/cloud-resource-operator/branch/master/graph/badge.svg)](https://codecov.io/gh/integr8ly/cloud-resource-operator)
+[![codecov](https://codecov.io/gh/kevfan/cloud-resource-operator/branch/master/graph/badge.svg)](https://codecov.io/gh/kevfan/cloud-resource-operator)
 
 Operator to provision resources such as Postgres, Redis and storage for you, either in-cluster or through a cloud
 provider such as Amazon AWS.
@@ -48,7 +48,7 @@ If not, ensure Go Modules are enabled.
 Clone this repository into your working directory, outside of `$GOPATH`. For example:
 ```shell script
 $ cd ~/dev
-$ git clone git@github.com:integr8ly/cloud-resource-operator.git
+$ git clone git@github.com:kevfan/cloud-resource-operator.git
 ```
 
 Seed the Kubernetes/OpenShift cluster with required resources:

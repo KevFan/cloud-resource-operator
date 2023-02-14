@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	types2 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	types2 "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
 	k8serr "k8s.io/apimachinery/pkg/api/errors"
@@ -13,7 +13,7 @@ import (
 
 	"k8s.io/apimachinery/pkg/types"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	"github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 
 	// appsv1 "k8s.io/api/apps/v1"
 

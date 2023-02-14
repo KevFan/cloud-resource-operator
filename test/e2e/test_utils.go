@@ -6,8 +6,12 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
-	configv1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
-	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	"net/http"
+	"net/http/cookiejar"
+	"time"
+
+	configv1 "github.com/kevfan/cloud-resource-operator/apis/config/v1"
+	integreatlyv1alpha1 "github.com/kevfan/cloud-resource-operator/apis/integreatly/v1alpha1"
 	_ "github.com/lib/pq"
 	routev1 "github.com/openshift/api/route/v1"
 	"golang.org/x/net/publicsuffix"
@@ -25,11 +29,8 @@ import (
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/restmapper"
-	"net/http"
-	"net/http/cookiejar"
 	dynclient "sigs.k8s.io/controller-runtime/pkg/client"
 	k8sclient "sigs.k8s.io/controller-runtime/pkg/client"
-	"time"
 )
 
 var (

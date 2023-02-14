@@ -5,7 +5,7 @@ import (
 	"context"
 	"io"
 
-	v1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
+	v1 "github.com/kevfan/cloud-resource-operator/apis/config/v1"
 
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"

@@ -3,7 +3,7 @@ package aws
 import (
 	"context"
 	"fmt"
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
+	"github.com/kevfan/cloud-resource-operator/internal/k8sutil"
 	v12 "k8s.io/api/core/v1"
 	"os"
 	controllerruntime "sigs.k8s.io/controller-runtime"
