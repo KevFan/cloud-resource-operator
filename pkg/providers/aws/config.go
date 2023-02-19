@@ -35,7 +35,7 @@ const (
 	ResourceIdentifierAnnotation = "resourceIdentifier"
 )
 
-//DefaultConfigMapNamespace is the default namespace that Configmaps will be created in
+// DefaultConfigMapNamespace is the default namespace that Configmaps will be created in
 var DefaultConfigMapNamespace, _ = k8sutil.GetWatchNamespace()
 
 /*

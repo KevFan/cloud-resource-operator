@@ -20,7 +20,7 @@ const (
 	MetricsWatchDuration = 5 * time.Minute
 )
 
-//GetForcedReconcileTimeOrDefault returns envar for reconcile time else returns default time
+// GetForcedReconcileTimeOrDefault returns envar for reconcile time else returns default time
 func GetForcedReconcileTimeOrDefault(defaultTo time.Duration) time.Duration {
 	recTime, exist := os.LookupEnv(EnvForceReconcileTimeout)
 	if exist {
@@ -33,7 +33,7 @@ func GetForcedReconcileTimeOrDefault(defaultTo time.Duration) time.Duration {
 	return defaultTo
 }
 
-//GetMetricReconcileTimeOrDefault returns envar for reconcile time else returns default time
+// GetMetricReconcileTimeOrDefault returns envar for reconcile time else returns default time
 func GetMetricReconcileTimeOrDefault(defaultTo time.Duration) time.Duration {
 	recTime, exist := os.LookupEnv(EnvMetricsReconcileTimeout)
 	if exist {

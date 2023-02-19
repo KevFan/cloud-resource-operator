@@ -1,18 +1,12 @@
-apiVersion: integreatly.org/v1alpha1
+apiVersion: integreatly.integreatly.org/v1alpha1
 kind: Postgres
 metadata:
-  # name must be between 1-40 characters
-  name: example-postgres
   labels:
-    # label for the product we are installing , subject to change
-    productName: productName
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/instance: postgres-sample
+    app.kubernetes.io/part-of: cloud-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: cloud-resource-operator
+  name: postgres-sample
 spec:
-  # i want my postgres storage information output in a secret named example-postgres-sec
-  secretRef:
-    name: example-postgres-sec
-  # i want a postgres storage of a development-level tier
-  tier: development
-  # the type i want for a postgres storage
-  type: REPLACE_ME
-  # whether service updates should take place
-  maintenanceWindow: false
+  # TODO(user): Add fields here

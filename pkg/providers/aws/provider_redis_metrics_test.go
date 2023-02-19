@@ -3,12 +3,13 @@ package aws
 import (
 	"context"
 	"errors"
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
-	moqClient "github.com/integr8ly/cloud-resource-operator/pkg/client/fake"
-	k8sTypes "k8s.io/apimachinery/pkg/types"
 	"os"
 	"reflect"
 	"testing"
+
+	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
+	moqClient "github.com/integr8ly/cloud-resource-operator/pkg/client/fake"
+	k8sTypes "k8s.io/apimachinery/pkg/types"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/cloudwatch"
@@ -277,7 +278,7 @@ func TestNewAWSRedisMetricsProvider(t *testing.T) {
 			args: args{
 				client: func() client.Client {
 					mockClient := moqClient.NewSigsClientMoqWithScheme(scheme)
-					mockClient.GetFunc = func(ctx context.Context, key k8sTypes.NamespacedName, obj client.Object) error {
+					mockClient.GetFunc = func(ctx context.Context, key k8sTypes.NamespacedName, obj client.Object, opts ...client.GetOption) error {
 						return errors.New("generic error")
 					}
 					return mockClient

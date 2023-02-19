@@ -19,7 +19,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/ec2/ec2iface"
 	"github.com/aws/aws-sdk-go/service/sts"
 	"github.com/aws/aws-sdk-go/service/sts/stsiface"
-	croApis "github.com/integr8ly/cloud-resource-operator/apis"
 	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
 	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
@@ -136,7 +135,7 @@ func buildCacheClusterList(modifyFn func([]*elasticache.CacheCluster)) []*elasti
 
 func buildTestSchemeRedis() (*runtime.Scheme, error) {
 	scheme := apimachinery.NewScheme()
-	err := croApis.AddToScheme(scheme)
+	err := v1alpha1.AddToScheme(scheme)
 	err = corev1.AddToScheme(scheme)
 	err = cloudCredentialApis.AddToScheme(scheme)
 	err = monitoringv1.AddToScheme(scheme)
@@ -2956,7 +2955,7 @@ func TestNewAWSRedisProvider(t *testing.T) {
 			args: args{
 				client: func() client.Client {
 					mockClient := moqClient.NewSigsClientMoqWithScheme(scheme)
-					mockClient.GetFunc = func(ctx context.Context, key k8sTypes.NamespacedName, obj client.Object) error {
+					mockClient.GetFunc = func(ctx context.Context, key k8sTypes.NamespacedName, obj client.Object, opts ...client.GetOption) error {
 						return errors.New("generic error")
 					}
 					return mockClient

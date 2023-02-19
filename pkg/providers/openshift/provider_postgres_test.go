@@ -7,8 +7,6 @@ import (
 	"testing"
 	"time"
 
-	types2 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-
 	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
 
 	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
@@ -447,7 +445,7 @@ func TestOpenShiftPostgresProvider_GetReconcileTime(t *testing.T) {
 			args: args{
 				p: &v1alpha1.Postgres{
 					Status: croType.ResourceTypeStatus{
-						Phase: types2.PhaseInProgress,
+						Phase: croType.PhaseInProgress,
 					},
 				},
 			},
@@ -458,7 +456,7 @@ func TestOpenShiftPostgresProvider_GetReconcileTime(t *testing.T) {
 			args: args{
 				p: &v1alpha1.Postgres{
 					Status: croType.ResourceTypeStatus{
-						Phase: types2.PhaseComplete,
+						Phase: croType.PhaseComplete,
 					},
 				},
 			},

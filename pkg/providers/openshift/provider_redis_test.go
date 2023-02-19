@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-
 	"reflect"
 	"testing"
 
@@ -15,7 +13,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	"github.com/integr8ly/cloud-resource-operator/apis"
 	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -34,7 +31,7 @@ var (
 
 func buildTestScheme() (*runtime.Scheme, error) {
 	scheme := runtime.NewScheme()
-	err := apis.AddToScheme(scheme)
+	err := v1alpha1.AddToScheme(scheme)
 	err = corev1.AddToScheme(scheme)
 	err = appsv1.AddToScheme(scheme)
 	if err != nil {
@@ -275,7 +272,7 @@ func TestOpenShiftRedisProvider_GetReconcileTime(t *testing.T) {
 			args: args{
 				r: &v1alpha1.Redis{
 					Status: croType.ResourceTypeStatus{
-						Phase: types.PhaseInProgress,
+						Phase: croType.PhaseInProgress,
 					},
 				},
 			},
@@ -286,7 +283,7 @@ func TestOpenShiftRedisProvider_GetReconcileTime(t *testing.T) {
 			args: args{
 				r: &v1alpha1.Redis{
 					Status: croType.ResourceTypeStatus{
-						Phase: types.PhaseComplete,
+						Phase: croType.PhaseComplete,
 					},
 				},
 			},

@@ -1,5 +1,5 @@
 /*
-
+Copyright 2023.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,78 +19,53 @@ package blobstorage
 import (
 	"context"
 	"fmt"
-	"time"
-
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/openshift"
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
-
-	"github.com/sirupsen/logrus"
-
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
-
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
-	errorUtil "github.com/pkg/errors"
-	"k8s.io/apimachinery/pkg/api/errors"
-	"k8s.io/apimachinery/pkg/runtime"
-	controllerruntime "sigs.k8s.io/controller-runtime"
-	ctrl "sigs.k8s.io/controller-runtime"
-	k8sclient "sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/handler"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
-	"sigs.k8s.io/controller-runtime/pkg/manager"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
+	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
+	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
+	"github.com/integr8ly/cloud-resource-operator/pkg/providers/openshift"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
+	errorUtil "github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
+	"k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/manager"
 )
-
-var log = logf.Log.WithName("controller_blobstorage")
 
 // BlobStorageReconciler reconciles a BlobStorage object
 type BlobStorageReconciler struct {
-	k8sclient.Client
-	scheme           *runtime.Scheme
+	client.Client
+	Scheme           *runtime.Scheme
 	logger           *logrus.Entry
 	resourceProvider *resources.ReconcileResourceProvider
 	providerList     []providers.BlobStorageProvider
 }
 
-var _ reconcile.Reconciler = &BlobStorageReconciler{}
+//+kubebuilder:rbac:groups=integreatly.org,resources=blobstorages,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=integreatly.org,resources=blobstorages/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=integreatly.org,resources=blobstorages/finalizers,verbs=update
 
 // New returns a new reconcile.Reconciler
 func New(mgr manager.Manager) (*BlobStorageReconciler, error) {
-	restConfig := controllerruntime.GetConfigOrDie()
-	restConfig.Timeout = time.Second * 10
-	client, err := k8sclient.New(restConfig, k8sclient.Options{
-		Scheme: mgr.GetScheme(),
-	})
+	logger := logrus.WithFields(logrus.Fields{"controller": "controller_blobstorage"})
+	awsBlobStorageProvider, err := aws.NewAWSBlobStorageProvider(mgr.GetClient(), logger)
 	if err != nil {
 		return nil, err
 	}
 
-	logger := logrus.WithFields(logrus.Fields{"controller": "controller_blobstorage"})
-	awsBlobStorageProvider, err := aws.NewAWSBlobStorageProvider(client, logger)
-	if err != nil {
-		return nil, err
-	}
-	providerList := []providers.BlobStorageProvider{awsBlobStorageProvider, openshift.NewBlobStorageProvider(client, logger)}
-	rp := resources.NewResourceProvider(client, mgr.GetScheme(), logger)
+	providerList := []providers.BlobStorageProvider{awsBlobStorageProvider, openshift.NewBlobStorageProvider(mgr.GetClient(), logger)}
+	rp := resources.NewResourceProvider(mgr.GetClient(), mgr.GetScheme(), logger)
+
 	return &BlobStorageReconciler{
-		Client:           client,
-		scheme:           mgr.GetScheme(),
+		Client:           mgr.GetClient(),
+		Scheme:           mgr.GetScheme(),
 		logger:           logger,
 		resourceProvider: rp,
 		providerList:     providerList,
 	}, nil
-}
-
-func (r *BlobStorageReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&integreatlyv1alpha1.BlobStorage{}).
-		Watches(&source.Kind{Type: &v1alpha1.BlobStorage{}}, &handler.EnqueueRequestForObject{}).
-		Complete(r)
 }
 
 func (r *BlobStorageReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
@@ -98,7 +73,7 @@ func (r *BlobStorageReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 	cfgMgr := providers.NewConfigManager(providers.DefaultProviderConfigMapName, req.Namespace, r.Client)
 
 	// Fetch the BlobStorage instance
-	instance := &v1alpha1.BlobStorage{}
+	instance := &integreatlyv1alpha1.BlobStorage{}
 	err := r.Client.Get(ctx, req.NamespacedName, instance)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -193,4 +168,11 @@ func (r *BlobStorageReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 		return ctrl.Result{}, err
 	}
 	return ctrl.Result{}, errorUtil.New(fmt.Sprintf("unsupported deployment strategy %s", stratMap.BlobStorage))
+}
+
+// SetupWithManager sets up the controller with the Manager.
+func (r *BlobStorageReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&integreatlyv1alpha1.BlobStorage{}).
+		Complete(r)
 }

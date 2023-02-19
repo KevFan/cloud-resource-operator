@@ -1,5 +1,5 @@
 /*
-
+Copyright 2023.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,56 +19,46 @@ package postgres
 import (
 	"context"
 	"fmt"
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
-
-	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-
-	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
-
-	"github.com/integr8ly/cloud-resource-operator/pkg/providers/openshift"
-
 	"time"
 
+	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
-	"github.com/sirupsen/logrus"
-
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
+	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
+	"github.com/integr8ly/cloud-resource-operator/pkg/providers/openshift"
+	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
 	errorUtil "github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 	corev1 "k8s.io/api/core/v1"
-
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
-	controllerruntime "sigs.k8s.io/controller-runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
-	k8sclient "sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
 )
 
-var log = logf.Log.WithName("controller_postgres")
-
 // PostgresReconciler reconciles a Postgres object
 type PostgresReconciler struct {
-	k8sclient.Client
-	scheme           *runtime.Scheme
+	client.Client
+	Scheme           *runtime.Scheme
 	logger           *logrus.Entry
 	resourceProvider *resources.ReconcileResourceProvider
 	providerList     []providers.PostgresProvider
 }
 
-var _ reconcile.Reconciler = &PostgresReconciler{}
+//+kubebuilder:rbac:groups=integreatly.org,resources=postgres,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=integreatly.org,resources=postgres/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=integreatly.org,resources=postgres/finalizers,verbs=update
 
 // New returns a new reconcile.Reconciler
 func New(mgr manager.Manager) (*PostgresReconciler, error) {
-	restConfig := controllerruntime.GetConfigOrDie()
+	restConfig := ctrl.GetConfigOrDie()
 	restConfig.Timeout = time.Second * 10
 
-	client, err := k8sclient.New(restConfig, k8sclient.Options{
+	k8sclient, err := client.New(restConfig, client.Options{
 		Scheme: mgr.GetScheme(),
 	})
 	if err != nil {
@@ -81,30 +71,19 @@ func New(mgr manager.Manager) (*PostgresReconciler, error) {
 	}
 
 	logger := logrus.WithFields(logrus.Fields{"controller": "controller_postgres"})
-	awsPostgresProvider, err := aws.NewAWSPostgresProvider(client, logger)
+	awsPostgresProvider, err := aws.NewAWSPostgresProvider(k8sclient, logger)
 	if err != nil {
 		return nil, err
 	}
-	providerList := []providers.PostgresProvider{openshift.NewOpenShiftPostgresProvider(client, clientSet, logger), awsPostgresProvider}
-	rp := resources.NewResourceProvider(client, mgr.GetScheme(), logger)
+	providerList := []providers.PostgresProvider{openshift.NewOpenShiftPostgresProvider(mgr.GetClient(), clientSet, logger), awsPostgresProvider}
+	rp := resources.NewResourceProvider(mgr.GetClient(), mgr.GetScheme(), logger)
 	return &PostgresReconciler{
-		Client:           client,
-		scheme:           mgr.GetScheme(),
+		Client:           mgr.GetClient(),
+		Scheme:           mgr.GetScheme(),
 		logger:           logger,
 		resourceProvider: rp,
 		providerList:     providerList,
 	}, nil
-}
-
-func (r *PostgresReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&integreatlyv1alpha1.Postgres{}).
-		Watches(&source.Kind{Type: &v1alpha1.Postgres{}}, &handler.EnqueueRequestForObject{}).
-		Watches(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
-			IsController: true,
-			OwnerType:    &v1alpha1.Postgres{},
-		}).
-		Complete(r)
 }
 
 // ClusterRole permissions
@@ -135,7 +114,7 @@ func (r *PostgresReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	cfgMgr := providers.NewConfigManager(providers.DefaultProviderConfigMapName, req.Namespace, r.Client)
 
 	// Fetch the Postgres instance
-	instance := &v1alpha1.Postgres{}
+	instance := &integreatlyv1alpha1.Postgres{}
 	err := r.Client.Get(context.TODO(), req.NamespacedName, instance)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -242,4 +221,16 @@ func (r *PostgresReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, err
 	}
 	return ctrl.Result{}, errorUtil.New(fmt.Sprintf("unsupported deployment strategy %s", stratMap.Postgres))
+
+}
+
+// SetupWithManager sets up the controller with the Manager.
+func (r *PostgresReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&integreatlyv1alpha1.Postgres{}).
+		Watches(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
+			IsController: true,
+			OwnerType:    &integreatlyv1alpha1.Postgres{},
+		}).
+		Complete(r)
 }

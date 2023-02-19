@@ -33,6 +33,44 @@ rules:
 - apiGroups:
   - integreatly.org
   resources:
+  - blobstorages
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - integreatly.org
+  resources:
+  - blobstorages/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - integreatly.org
+  resources:
+  - blobstorages/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - integreatly.org
+  resources:
+  - postgres
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - integreatly.org
+  resources:
   - postgres
   - postgressnapshots
   - redis
@@ -40,6 +78,98 @@ rules:
   verbs:
   - list
   - watch
+- apiGroups:
+  - integreatly.org
+  resources:
+  - postgres/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - integreatly.org
+  resources:
+  - postgres/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - integreatly.org
+  resources:
+  - postgressnapshots
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - integreatly.org
+  resources:
+  - postgressnapshots/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - integreatly.org
+  resources:
+  - postgressnapshots/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - integreatly.org
+  resources:
+  - redis
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - integreatly.org
+  resources:
+  - redis/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - integreatly.org
+  resources:
+  - redis/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - integreatly.org
+  resources:
+  - redissnapshots
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - integreatly.org
+  resources:
+  - redissnapshots/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - integreatly.org
+  resources:
+  - redissnapshots/status
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - monitoring.coreos.com
   resources:

@@ -3,22 +3,20 @@ package aws
 import (
 	"context"
 	"errors"
-	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
-	moqClient "github.com/integr8ly/cloud-resource-operator/pkg/client/fake"
-	k8sTypes "k8s.io/apimachinery/pkg/types"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
+	moqClient "github.com/integr8ly/cloud-resource-operator/pkg/client/fake"
+	k8sTypes "k8s.io/apimachinery/pkg/types"
 
 	crov1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	controllerruntime "sigs.k8s.io/controller-runtime"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
-
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	croapis "github.com/integr8ly/cloud-resource-operator/apis"
 	"github.com/openshift/cloud-credential-operator/pkg/apis"
 	cloudcredentialv1 "github.com/openshift/cloud-credential-operator/pkg/apis/cloudcredential/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -46,7 +44,7 @@ type mockS3Svc struct {
 
 func buildTestScheme() (*runtime.Scheme, error) {
 	scheme := runtime.NewScheme()
-	err := croapis.AddToScheme(scheme)
+	err := v1alpha1.AddToScheme(scheme)
 	err = crov1.SchemeBuilder.AddToScheme(scheme)
 	err = corev1.AddToScheme(scheme)
 	err = apis.AddToScheme(scheme)
@@ -310,7 +308,7 @@ func TestBlobStorageProvider_GetReconcileTime(t *testing.T) {
 			args: args{
 				b: &v1alpha1.BlobStorage{
 					Status: croType.ResourceTypeStatus{
-						Phase: types.PhaseInProgress,
+						Phase: croType.PhaseInProgress,
 					},
 				},
 			},
@@ -321,7 +319,7 @@ func TestBlobStorageProvider_GetReconcileTime(t *testing.T) {
 			args: args{
 				b: &v1alpha1.BlobStorage{
 					Status: croType.ResourceTypeStatus{
-						Phase: types.PhaseComplete,
+						Phase: croType.PhaseComplete,
 					},
 				},
 			},
@@ -360,7 +358,7 @@ func TestBlobStorageProvider_TagBlobStorage(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    types.StatusMessage
+		want    croType.StatusMessage
 		wantErr bool
 	}{
 		{
@@ -380,7 +378,7 @@ func TestBlobStorageProvider_TagBlobStorage(t *testing.T) {
 					bucketNames: []string{"test"},
 				},
 			},
-			want:    types.StatusMessage("successfully created and tagged"),
+			want:    croType.StatusMessage("successfully created and tagged"),
 			wantErr: false,
 		},
 	}
@@ -438,7 +436,7 @@ func TestNewAWSBlobStorageProvider(t *testing.T) {
 			args: args{
 				client: func() client.Client {
 					mockClient := moqClient.NewSigsClientMoqWithScheme(scheme)
-					mockClient.GetFunc = func(ctx context.Context, key k8sTypes.NamespacedName, obj client.Object) error {
+					mockClient.GetFunc = func(ctx context.Context, key k8sTypes.NamespacedName, obj client.Object, opts ...client.GetOption) error {
 						return errors.New("generic error")
 					}
 					return mockClient

@@ -1,19 +1,12 @@
-apiVersion: integreatly.org/v1alpha1
+apiVersion: integreatly.integreatly.org/v1alpha1
 kind: BlobStorage
 metadata:
-  # name must be between 1-40 characters
-  name: example-blobstorage
   labels:
-    productName: ProductName
+    app.kubernetes.io/name: blobstorage
+    app.kubernetes.io/instance: blobstorage-sample
+    app.kubernetes.io/part-of: cloud-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: cloud-resource-operator
+  name: blobstorage-sample
 spec:
-  # i want my blob storage information output in a secret named example-blobstorage-sec
-  secretRef:
-    name: example-blobstorage-sec
-  # i want a blob storage of a development-level tier
-  tier: development
-  # the type i want for a blob storage
-  type: REPLACE_ME
-  # this value is not currently implemented for blobstorage
-  applyImmediately: false
-  # this value is not currently implemented for blobstorage
-  maintenanceWindow: false
+  # TODO(user): Add fields here

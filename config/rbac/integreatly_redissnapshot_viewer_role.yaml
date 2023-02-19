@@ -1,0 +1,27 @@
+# permissions for end users to view redissnapshots.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: redissnapshot-viewer-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: cloud-resource-operator
+    app.kubernetes.io/part-of: cloud-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: redissnapshot-viewer-role
+rules:
+- apiGroups:
+  - integreatly.org
+  resources:
+  - redissnapshots
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - integreatly.org
+  resources:
+  - redissnapshots/status
+  verbs:
+  - get

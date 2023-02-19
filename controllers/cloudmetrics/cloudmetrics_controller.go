@@ -5,17 +5,14 @@ package cloudmetrics
 
 import (
 	"context"
-	"time"
 
 	"github.com/aws/aws-sdk-go/service/cloudwatch"
+	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
 	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/sirupsen/logrus"
-	controllerruntime "sigs.k8s.io/controller-runtime"
-
-	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
 	k8sclient "sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
@@ -189,7 +186,7 @@ var redisGaugeMetrics = []CroGaugeMetric{
 // PostgresReconciler reconciles a Postgres object
 type CloudMetricsReconciler struct {
 	k8sclient.Client
-	scheme               *runtime.Scheme
+	Scheme               *runtime.Scheme
 	logger               *logrus.Entry
 	postgresProviderList []providers.PostgresMetricsProvider
 	redisProviderList    []providers.RedisMetricsProvider
@@ -200,21 +197,13 @@ var _ reconcile.Reconciler = &CloudMetricsReconciler{}
 
 // New returns a new reconcile.Reconciler
 func New(mgr manager.Manager) (*CloudMetricsReconciler, error) {
-	restConfig := controllerruntime.GetConfigOrDie()
-	restConfig.Timeout = time.Second * 10
-	client, err := k8sclient.New(restConfig, k8sclient.Options{
-		Scheme: mgr.GetScheme(),
-	})
-	if err != nil {
-		return nil, err
-	}
 	logger := logrus.WithFields(logrus.Fields{"controller": "controller_cloudmetrics"})
-	postgresMetricsProvider, err := aws.NewAWSPostgresMetricsProvider(client, logger)
+	postgresMetricsProvider, err := aws.NewAWSPostgresMetricsProvider(mgr.GetClient(), logger)
 	if err != nil {
 		return nil, err
 	}
 	postgresProviderList := []providers.PostgresMetricsProvider{postgresMetricsProvider}
-	redisMetricsProvider, err := aws.NewAWSRedisMetricsProvider(client, logger)
+	redisMetricsProvider, err := aws.NewAWSRedisMetricsProvider(mgr.GetClient(), logger)
 	if err != nil {
 		return nil, err
 	}
@@ -226,7 +215,7 @@ func New(mgr manager.Manager) (*CloudMetricsReconciler, error) {
 	registerGaugeVectorMetrics(logger)
 	return &CloudMetricsReconciler{
 		Client:               mgr.GetClient(),
-		scheme:               mgr.GetScheme(),
+		Scheme:               mgr.GetScheme(),
 		logger:               logger,
 		postgresProviderList: postgresProviderList,
 		redisProviderList:    redisProviderList,

@@ -2,9 +2,10 @@ package aws
 
 import (
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"net"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 //go:generate moq -out connection_tester_moq.go . ConnectionTester

@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"os"
+	"reflect"
+	"testing"
+
 	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
 	moqClient "github.com/integr8ly/cloud-resource-operator/pkg/client/fake"
 	"github.com/integr8ly/cloud-resource-operator/pkg/resources"
 	k8sTypes "k8s.io/apimachinery/pkg/types"
-	"os"
-	"reflect"
-	"testing"
 
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
 
@@ -728,7 +729,7 @@ func TestNewAWSRedisSnapshotProvider(t *testing.T) {
 			args: args{
 				client: func() client.Client {
 					mockClient := moqClient.NewSigsClientMoqWithScheme(scheme)
-					mockClient.GetFunc = func(ctx context.Context, key k8sTypes.NamespacedName, obj client.Object) error {
+					mockClient.GetFunc = func(ctx context.Context, key k8sTypes.NamespacedName, obj client.Object, opts ...client.GetOption) error {
 						return errors.New("generic error")
 					}
 					return mockClient

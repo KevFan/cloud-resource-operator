@@ -1,12 +1,12 @@
 /*
 AWS Strategy Setup
 
-A utility to abstract the various strategy map ConfigMaps from the service using CRO
+# A utility to abstract the various strategy map ConfigMaps from the service using CRO
 
 Problem Statement:
- - We require an AWS strategy map ConfigMaps to be in place to provide configuration used to provision AWS cloud resources
+  - We require an AWS strategy map ConfigMaps to be in place to provide configuration used to provision AWS cloud resources
 
-This utility provides the abstraction necessary, provisioning an AWS strategy map
+# This utility provides the abstraction necessary, provisioning an AWS strategy map
 
 We accept start times for maintenance and backup times as a level of abstraction
 Building the correct maintenance and backup times necessary for AWS
@@ -20,6 +20,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/elasticache"
 	"github.com/aws/aws-sdk-go/service/rds"
@@ -29,8 +32,6 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
-	"strings"
-	"time"
 )
 
 // reconciles aws strategy map, adding maintenance and backup window fields

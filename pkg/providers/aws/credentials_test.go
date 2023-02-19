@@ -3,16 +3,17 @@ package aws
 import (
 	"context"
 	"errors"
+	"os"
+	"testing"
+	"time"
+
 	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
 	moqClient "github.com/integr8ly/cloud-resource-operator/pkg/client/fake"
 	v1 "github.com/openshift/cloud-credential-operator/pkg/apis/cloudcredential/v1"
 	v12 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-	"os"
 	controllerruntime "sigs.k8s.io/controller-runtime"
-	"testing"
-	"time"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -419,7 +420,7 @@ func TestNewCredentialManager(t *testing.T) {
 			args: args{
 				client: func() client.Client {
 					mockClient := moqClient.NewSigsClientMoqWithScheme(scheme)
-					mockClient.GetFunc = func(ctx context.Context, key types.NamespacedName, obj client.Object) error {
+					mockClient.GetFunc = func(ctx context.Context, key types.NamespacedName, obj client.Object, opts ...client.GetOption) error {
 						return errors.New("generic error")
 					}
 					return mockClient
@@ -432,7 +433,7 @@ func TestNewCredentialManager(t *testing.T) {
 			args: args{
 				client: func() client.Client {
 					mockClient := moqClient.NewSigsClientMoqWithScheme(scheme)
-					mockClient.GetFunc = func(ctx context.Context, key types.NamespacedName, obj client.Object) error {
+					mockClient.GetFunc = func(ctx context.Context, key types.NamespacedName, obj client.Object, opts ...client.GetOption) error {
 						return nil
 					}
 					return mockClient

@@ -1,5 +1,5 @@
 /*
-
+Copyright 2023.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"time"
 
-	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
 	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
 	croAws "github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
@@ -32,13 +31,13 @@ import (
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
-	controllerruntime "sigs.k8s.io/controller-runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
-	k8sclient "sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/source"
+
+	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
 )
 
 const (
@@ -47,50 +46,50 @@ const (
 
 // RedisSnapshotReconciler reconciles a RedisSnapshot object
 type RedisSnapshotReconciler struct {
-	k8sclient.Client
-	scheme        *runtime.Scheme
+	client.Client
+	Scheme        *runtime.Scheme
 	logger        *logrus.Entry
 	provider      providers.RedisSnapshotProvider
 	ConfigManager croAws.ConfigManager
 }
 
-var _ reconcile.Reconciler = &RedisSnapshotReconciler{}
-
 func New(mgr manager.Manager) (*RedisSnapshotReconciler, error) {
-	restConfig := controllerruntime.GetConfigOrDie()
+	restConfig := ctrl.GetConfigOrDie()
 	restConfig.Timeout = time.Second * 10
 
-	client, err := k8sclient.New(restConfig, k8sclient.Options{
+	k8sclient, err := client.New(restConfig, client.Options{
 		Scheme: mgr.GetScheme(),
 	})
 	if err != nil {
 		return nil, err
 	}
 	logger := logrus.WithFields(logrus.Fields{"controller": "controller_redis_snapshot"})
-	redisSnapshotProvider, err := croAws.NewAWSRedisSnapshotProvider(client, logger)
+	redisSnapshotProvider, err := croAws.NewAWSRedisSnapshotProvider(k8sclient, logger)
 	if err != nil {
 		return nil, err
 	}
 	return &RedisSnapshotReconciler{
-		Client:        client,
-		scheme:        mgr.GetScheme(),
+		Client:        mgr.GetClient(),
+		Scheme:        mgr.GetScheme(),
 		logger:        logger,
 		provider:      redisSnapshotProvider,
 		ConfigManager: croAws.NewDefaultConfigMapConfigManager(mgr.GetClient()),
 	}, nil
 }
 
-func (r *RedisSnapshotReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&integreatlyv1alpha1.RedisSnapshot{}).
-		Watches(&source.Kind{Type: &integreatlyv1alpha1.RedisSnapshot{}}, &handler.EnqueueRequestForObject{}).
-		Watches(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
-			IsController: true,
-			OwnerType:    &integreatlyv1alpha1.RedisSnapshot{},
-		}).
-		Complete(r)
-}
+//+kubebuilder:rbac:groups=integreatly.org,resources=redissnapshots,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=integreatly.org,resources=redissnapshots/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=integreatly.org,resources=redissnapshots/finalizers,verbs=update
 
+// Reconcile is part of the main kubernetes reconciliation loop which aims to
+// move the current state of the cluster closer to the desired state.
+// TODO(user): Modify the Reconcile function to compare the state specified by
+// the RedisSnapshot object against the actual cluster state, and then
+// perform operations to make the cluster state reflect the state specified by
+// the user.
+//
+// For more details, check Reconcile and its Result here:
+// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.13.0/pkg/reconcile
 func (r *RedisSnapshotReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	r.logger.Info("reconciling redis snapshot")
 
@@ -212,4 +211,15 @@ func (r *RedisSnapshotReconciler) exposeRedisSnapshotMetrics(ctx context.Context
 		labelsFailed := buildRedisSnapshotStatusMetricLabels(cr, clusterID, snapshotName, phase)
 		resources.SetMetric(resources.DefaultRedisSnapshotStatusMetricName, labelsFailed, resources.Btof64(cr.Status.Phase == phase))
 	}
+}
+
+// SetupWithManager sets up the controller with the Manager.
+func (r *RedisSnapshotReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&integreatlyv1alpha1.RedisSnapshot{}).
+		Watches(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
+			IsController: true,
+			OwnerType:    &integreatlyv1alpha1.RedisSnapshot{},
+		}).
+		Complete(r)
 }

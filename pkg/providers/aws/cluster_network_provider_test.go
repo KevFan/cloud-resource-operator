@@ -7,8 +7,9 @@ import (
 	"fmt"
 	"net"
 	"reflect"
-	controllerruntime "sigs.k8s.io/controller-runtime"
 	"testing"
+
+	controllerruntime "sigs.k8s.io/controller-runtime"
 
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	errorUtil "github.com/pkg/errors"

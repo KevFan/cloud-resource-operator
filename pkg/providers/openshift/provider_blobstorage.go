@@ -2,8 +2,9 @@ package openshift
 
 import (
 	"context"
-	"k8s.io/apimachinery/pkg/api/errors"
 	"time"
+
+	"k8s.io/apimachinery/pkg/api/errors"
 
 	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
 	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"

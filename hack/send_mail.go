@@ -27,8 +27,8 @@ func main() {
 	hostWithPort := fmt.Sprintf("%s:%s", *smtpHostPtr, "465")
 	mailAuth := smtp.PlainAuth("", *authUserPtr, *authPassPtr, *smtpHostPtr)
 
-	from := mail.Address{"", *fromAddrPtr}
-	to := mail.Address{"", *toAddrPtr}
+	from := mail.Address{Address: *fromAddrPtr}
+	to := mail.Address{Address: *toAddrPtr}
 
 	fmt.Println("building mail contents . . . beep beep")
 	headers := make(map[string]string)

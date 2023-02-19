@@ -1,5 +1,5 @@
 /*
-
+Copyright 2023.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
 	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
@@ -32,75 +31,71 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
-	controllerruntime "sigs.k8s.io/controller-runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
-	k8sclient "sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
-	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	integreatlyv1alpha1 "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
 )
 
-var log = logf.Log.WithName("controller_redis")
-
 // RedisReconciler reconciles a Redis object
 type RedisReconciler struct {
-	k8sclient.Client
-	scheme           *runtime.Scheme
+	client.Client
+	Scheme           *runtime.Scheme
 	logger           *logrus.Entry
 	resourceProvider *resources.ReconcileResourceProvider
 	providerList     []providers.RedisProvider
 }
 
-var _ reconcile.Reconciler = &RedisReconciler{}
-
 // New returns a new reconcile.Reconciler
 func New(mgr manager.Manager) (*RedisReconciler, error) {
-	restConfig := controllerruntime.GetConfigOrDie()
+	restConfig := ctrl.GetConfigOrDie()
 	restConfig.Timeout = time.Second * 10
 
-	client, err := k8sclient.New(restConfig, k8sclient.Options{
+	k8sclient, err := client.New(restConfig, client.Options{
 		Scheme: mgr.GetScheme(),
 	})
 	if err != nil {
 		return nil, err
 	}
+
 	logger := logrus.WithFields(logrus.Fields{"controller": "controller_redis"})
-	awsRedisProvider, err := aws.NewAWSRedisProvider(client, logger)
+	awsRedisProvider, err := aws.NewAWSRedisProvider(k8sclient, logger)
 	if err != nil {
 		return nil, err
 	}
-	providerList := []providers.RedisProvider{awsRedisProvider, openshift.NewOpenShiftRedisProvider(client, logger)}
-	rp := resources.NewResourceProvider(client, mgr.GetScheme(), logger)
+	providerList := []providers.RedisProvider{awsRedisProvider, openshift.NewOpenShiftRedisProvider(mgr.GetClient(), logger)}
+	rp := resources.NewResourceProvider(mgr.GetClient(), mgr.GetScheme(), logger)
 	return &RedisReconciler{
 		Client:           mgr.GetClient(),
-		scheme:           mgr.GetScheme(),
+		Scheme:           mgr.GetScheme(),
 		logger:           logger,
 		resourceProvider: rp,
 		providerList:     providerList,
 	}, nil
 }
 
-func (r *RedisReconciler) SetupWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewControllerManagedBy(mgr).
-		For(&integreatlyv1alpha1.Redis{}).
-		Watches(&source.Kind{Type: &v1alpha1.Redis{}}, &handler.EnqueueRequestForObject{}).
-		Watches(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
-			IsController: true,
-			OwnerType:    &v1alpha1.Redis{},
-		}).
-		Complete(r)
-}
+//+kubebuilder:rbac:groups=integreatly.org,resources=redis,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=integreatly.org,resources=redis/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=integreatly.org,resources=redis/finalizers,verbs=update
 
+// Reconcile is part of the main kubernetes reconciliation loop which aims to
+// move the current state of the cluster closer to the desired state.
+// TODO(user): Modify the Reconcile function to compare the state specified by
+// the Redis object against the actual cluster state, and then
+// perform operations to make the cluster state reflect the state specified by
+// the user.
+//
+// For more details, check Reconcile and its Result here:
+// - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.13.0/pkg/reconcile
 func (r *RedisReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	r.logger.Info("reconciling Redis")
 	cfgMgr := providers.NewConfigManager(providers.DefaultProviderConfigMapName, req.Namespace, r.Client)
 
 	// Fetch the Redis instance
-	instance := &v1alpha1.Redis{}
+	instance := &integreatlyv1alpha1.Redis{}
 	err := r.Client.Get(ctx, req.NamespacedName, instance)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -208,4 +203,15 @@ func (r *RedisReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 		return ctrl.Result{}, err
 	}
 	return ctrl.Result{}, errorUtil.New(fmt.Sprintf("unsupported deployment strategy %s", stratMap.Redis))
+}
+
+// SetupWithManager sets up the controller with the Manager.
+func (r *RedisReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&integreatlyv1alpha1.Redis{}).
+		Watches(&source.Kind{Type: &corev1.Pod{}}, &handler.EnqueueRequestForOwner{
+			IsController: true,
+			OwnerType:    &integreatlyv1alpha1.Redis{},
+		}).
+		Complete(r)
 }

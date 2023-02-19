@@ -1,22 +1,12 @@
-apiVersion: integreatly.org/v1alpha1
+apiVersion: integreatly.integreatly.org/v1alpha1
 kind: Redis
 metadata:
-  # name must be between 1-40 characters
-  name: REPLACE_ME
   labels:
-  # label for the product we are installing , subject to change
-    productName: productName
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: redis-sample
+    app.kubernetes.io/part-of: cloud-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: cloud-resource-operator
+  name: redis-sample
 spec:
-  # i want my redis storage information output in a secret named example-redis-sec
-  secretRef:
-    name: REPLACE_ME-sec
-  # i want a redis storage of a development-level tier
-  tier: development
-  # the type i want for a redis storage
-  type: REPLACE_ME
-  # set to true to force any pending service updates on the redis instance
-  applyImmediately: false
-  # whether service updates should take place
-  maintenanceWindow: false
-  # Optionally set the redis node size
-  size: REPLACE_ME
+  # TODO(user): Add fields here

@@ -4,12 +4,23 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    name: cloud-resource-operator
-  name: cloud-resource-operator-metrics
+    control-plane: controller-manager
+    app.kubernets.io/name: servicemonitor
+    app.kubernetes.io/instance: controller-manager-metrics-monitor
+    app.kubernetes.io/component: metrics
+    app.kubernetes.io/created-by: cloud-resource-operator
+    app.kubernetes.io/part-of: cloud-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: controller-manager-metrics-monitor
+  namespace: system
 spec:
   endpoints:
-  - path: /metrics
-    port: http-metrics
+    - path: /metrics
+      port: https
+      scheme: https
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      tlsConfig:
+        insecureSkipVerify: true
   selector:
     matchLabels:
-      name: cloud-resource-operator
+      control-plane: controller-manager

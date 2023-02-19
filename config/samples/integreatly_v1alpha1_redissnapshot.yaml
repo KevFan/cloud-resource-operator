@@ -1,7 +1,12 @@
-apiVersion: integreatly.org/v1alpha1
+apiVersion: integreatly.integreatly.org/v1alpha1
 kind: RedisSnapshot
 metadata:
-  name: example-redissnapshot
+  labels:
+    app.kubernetes.io/name: redissnapshot
+    app.kubernetes.io/instance: redissnapshot-sample
+    app.kubernetes.io/part-of: cloud-resource-operator
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/created-by: cloud-resource-operator
+  name: redissnapshot-sample
 spec:
-  # The redis resource name for the snapshot you want to take
-  resourceName: REPLACE_ME
+  # TODO(user): Add fields here

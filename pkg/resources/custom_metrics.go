@@ -70,7 +70,7 @@ func ResetMetric(name string) {
 	}
 }
 
-//SetMetric Set exports a Prometheus Gauge
+// SetMetric Set exports a Prometheus Gauge
 func SetMetric(name string, labels map[string]string, value float64) {
 	// set vector value
 	gv, ok := MetricVecs[name]
@@ -94,7 +94,7 @@ func SetMetric(name string, labels map[string]string, value float64) {
 	logrus.Info(fmt.Sprintf("successfully created new gauge vector metric %s", name))
 }
 
-//SetMetricCurrentTime Set current time wraps set metric
+// SetMetricCurrentTime Set current time wraps set metric
 func SetMetricCurrentTime(name string, labels map[string]string) {
 	SetMetric(name, labels, float64(time.Now().UnixNano())/1e9)
 }

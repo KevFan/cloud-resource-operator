@@ -2,16 +2,17 @@ package aws
 
 import (
 	"context"
+	"reflect"
+	"testing"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/ec2"
 	configv1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
 	"github.com/sirupsen/logrus"
 	"k8s.io/apimachinery/pkg/runtime"
-	"reflect"
 	controllerruntime "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
-	"testing"
 )
 
 func Test_buildSubnetAddress(t *testing.T) {

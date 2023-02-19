@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
+	"testing"
+
 	"github.com/integr8ly/cloud-resource-operator/internal/k8sutil"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
 	"github.com/spf13/afero"
-	"strings"
-	"testing"
 
 	configv1 "github.com/integr8ly/cloud-resource-operator/apis/config/v1"
 	v1 "k8s.io/api/core/v1"

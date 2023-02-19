@@ -4,13 +4,12 @@
 // alerts, to ensure and monitor performance of postgres (rds) instances
 //
 // this providers does
-//   * scrape metric data from cloudwatch
-//   * build a generic cloud metric data type from cloudwatch data
-//   * return generic cloud metric data to metric controller to be exposed
+//   - scrape metric data from cloudwatch
+//   - build a generic cloud metric data type from cloudwatch data
+//   - return generic cloud metric data to metric controller to be exposed
 //
 // this provider does not
-//   * expose the metrics, this is controller at a higher level (controller)
-//
+//   - expose the metrics, this is controller at a higher level (controller)
 package aws
 
 import (

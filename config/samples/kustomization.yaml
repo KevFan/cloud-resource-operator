@@ -5,4 +5,4 @@ resources:
 - integreatly_v1alpha1_postgressnapshot.yaml
 - integreatly_v1alpha1_redis.yaml
 - integreatly_v1alpha1_redissnapshot.yaml
-# +kubebuilder:scaffold:manifestskustomizesamples
+#+kubebuilder:scaffold:manifestskustomizesamples

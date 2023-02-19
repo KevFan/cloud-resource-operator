@@ -2,9 +2,9 @@
 
 The AWS provider will reconcile upon the following resources:
 
-- `Postgres` - Reconcile RDS Instances, see [Postgres docs](./postgresql.md) for more details
-- `Redis` - Reconcile Elasticache Replication Groups, see [Redis docs](./redis.md) for more details
-- `BlobStorage` - Reconcile S3 Buckets, see [BlobStorage docs](./blobstorage.md) for more details
+- `Postgres` - Reconcile RDS Instances, see [Postgres docs](postgresql.md) for more details
+- `Redis` - Reconcile Elasticache Replication Groups, see [Redis docs](redis.md) for more details
+- `BlobStorage` - Reconcile S3 Buckets, see [BlobStorage docs](blobstorage.md) for more details
 - `PostgresSnapshot` - One-time snapshot of an RDS Instance
 - `RedisSnapshot` - One-time snapshot of an Elasticache Replication Group
 

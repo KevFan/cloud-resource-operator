@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1"
-	"github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	croType "github.com/integr8ly/cloud-resource-operator/apis/integreatly/v1alpha1/types"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers"
 	"github.com/integr8ly/cloud-resource-operator/pkg/providers/aws"
@@ -48,7 +47,7 @@ func TestBlobStorageProvider_CreateStorage(t *testing.T) {
 						Namespace: "test",
 					},
 					Spec: croType.ResourceTypeSpec{
-						SecretRef: &types.SecretRef{
+						SecretRef: &croType.SecretRef{
 							Name:      "test-sec",
 							Namespace: "",
 						},
@@ -94,14 +93,14 @@ func TestBlobStorageProvider_CreateStorage(t *testing.T) {
 						Namespace: "test",
 					},
 					Spec: croType.ResourceTypeSpec{
-						SecretRef: &types.SecretRef{
+						SecretRef: &croType.SecretRef{
 							Name:      "test-sec",
 							Namespace: "",
 						},
 					},
 					Status: croType.ResourceTypeStatus{
-						Phase: types.PhaseComplete,
-						SecretRef: &types.SecretRef{
+						Phase: croType.PhaseComplete,
+						SecretRef: &croType.SecretRef{
 							Name:      "test",
 							Namespace: "test",
 						},
@@ -144,14 +143,14 @@ func TestBlobStorageProvider_CreateStorage(t *testing.T) {
 						Namespace: "test",
 					},
 					Spec: croType.ResourceTypeSpec{
-						SecretRef: &types.SecretRef{
+						SecretRef: &croType.SecretRef{
 							Name:      "test-sec",
 							Namespace: "",
 						},
 					},
 					Status: croType.ResourceTypeStatus{
-						Phase: types.PhaseComplete,
-						SecretRef: &types.SecretRef{
+						Phase: croType.PhaseComplete,
+						SecretRef: &croType.SecretRef{
 							Name:      "test",
 							Namespace: "test",
 						},

@@ -11,7 +11,6 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/integr8ly/cloud-resource-operator/apis"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
@@ -23,7 +22,7 @@ import (
 
 func buildTestScheme() (*runtime.Scheme, error) {
 	scheme := runtime.NewScheme()
-	err := apis.AddToScheme(scheme)
+	err := v1alpha1.AddToScheme(scheme)
 	err = corev1.AddToScheme(scheme)
 	if err != nil {
 		return nil, err

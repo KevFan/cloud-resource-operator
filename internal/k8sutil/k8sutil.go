@@ -2,10 +2,11 @@ package k8sutil
 
 import (
 	"fmt"
-	"github.com/spf13/afero"
 	"io/ioutil"
 	"os"
 	"strings"
+
+	"github.com/spf13/afero"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"

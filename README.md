@@ -33,8 +33,8 @@ Prerequisites:
 - [go](https://golang.org/dl/)
 - [yq](https://github.com/mikefarah/yq) version v4+
 - [operator-sdk](https://github.com/operator-framework/operator-sdk) version v1.14.0.
-- [git-secrets](https://github.com/awslabs/git-secrets) - for preventing cloud-provider credentials being included in 
-commits
+- [git-secrets](https://github.com/awslabs/git-secrets) - for preventing cloud-provider credentials being included in
+  commits
 - [OPM](https://docs.openshift.com/container-platform/4.11/cli_reference/opm-cli.html)
 
 Ensure you are running at least `Go 1.18`.
@@ -81,9 +81,9 @@ spec:
 *Note* You may experience some downtime in the resource during the creation of the Snapshot
 
 ## Skip Create
-The cloud resource operator continuously reconciles using the strat-config as a source of truth for the current state of the provisioned resources. Should these resources alter from the expected the state the operator will update the resources to match the expected state.  
+The cloud resource operator continuously reconciles using the strat-config as a source of truth for the current state of the provisioned resources. Should these resources alter from the expected the state the operator will update the resources to match the expected state.
 
-There can be circumstances where a provisioned resource would need to be altered. If this is the case, add `skipCreate: true` to the resources CR `spec`. This will cause the operator to skip creating or updating the resource. 
+There can be circumstances where a provisioned resource would need to be altered. If this is the case, add `skipCreate: true` to the resources CR `spec`. This will cause the operator to skip creating or updating the resource.
 
 ## Deployment
 The operator expects two configmaps to exist in the namespace it is watching. These configmaps provide the configuration needed to outline the deployment methods and strategies used when provisioning cloud resources.
@@ -91,20 +91,20 @@ The operator expects two configmaps to exist in the namespace it is watching. Th
 ### Provider configmap
 The `cloud-resource-config` configmap defines which provider should be used to provision a specific resource type. Different deployment types can contain different `resource type > provider` mappings.
 An example can be seen [here](config/samples/cloud_resource_config.yaml).
-For example, a `workshop` deployment type might choose to deploy a Postgres resource type in-cluster (`openshift`), while a `managed` deployment type might choose `AWS` to deploy an RDS instance instead. 
+For example, a `workshop` deployment type might choose to deploy a Postgres resource type in-cluster (`openshift`), while a `managed` deployment type might choose `AWS` to deploy an RDS instance instead.
 
 ### Strategy configmap
-A config map object is expected to exist for each provider (Currently `AWS` or `Openshift`) that will be used by the operator. 
-This config map contains information about how to deploy a particular resource type, such as blob storage, with that provider. 
+A config map object is expected to exist for each provider (Currently `AWS` or `Openshift`) that will be used by the operator.
+This config map contains information about how to deploy a particular resource type, such as blob storage, with that provider.
 In the Cloud Resources Operator, this provider-specific configuration is called a strategy. An example of an AWS strategy configmap can be seen [here](config/samples/cloud_resources_aws_strategies.yaml).
 
 ### Custom Resources
-With `Provider` and `Strategy` configmaps in place, cloud resources can be provisioned by creating a custom resource object for the desired resource type. 
-An example of a Postgres custom resource can be seen [here](./config/samples/integreatly_v1alpha1_postgres.yaml). 
+With `Provider` and `Strategy` configmaps in place, cloud resources can be provisioned by creating a custom resource object for the desired resource type.
+An example of a Postgres custom resource can be seen [here](./config/samples/integreatly_v1alpha1_postgres.yaml).
 
 Each custom resource contains:
 - A `secretRef`, containing the name of the secret that will be created by the operator with connection details to the resource
-- A `tier`, in this case `production`, which means a production worthy Postgres instance will be deployed 
+- A `tier`, in this case `production`, which means a production worthy Postgres instance will be deployed
 - A `type`, in this case `managed`, which will resolve to a cloud provider specified in the `cloud-resource-config` configmap
 
 ```yaml
@@ -163,14 +163,14 @@ $ make test/unit
 
 Cut a release on Github you need to be an [owner](OWNERS)
 
-- On github ui select on tags 
+- On github ui select on tags
 
 ![tags image](img/tags.png?raw=true)
 - Select Releases on then next screen
 
 ![release button](img/release-button.png?raw=true)
 
-- On the Release list screen select `Draft a new release` button 
+- On the Release list screen select `Draft a new release` button
 
 ![draft release](img/draft-release.png?raw=true)
 
@@ -180,7 +180,7 @@ Cut a release on Github you need to be an [owner](OWNERS)
 
 Update the operator version in the following files:
 
-* Update `VERSION` and `PREV_VERSION` in the [Makefile](Makefile) 
+* Update `VERSION` and `PREV_VERSION` in the [Makefile](Makefile)
 
 * Generate a new cluster service version:
 ```sh
@@ -338,14 +338,14 @@ Navigating to **Installed Operators** -> **Cloud Resource Operator** -> **Subscr
 - `Provider` - A service on which a resource type is provisioned e.g. `aws`, `openshift`
 - `Resource type` - Something that can be requested from the operator via a custom resource e.g. `blobstorage`, `redis`
 - `Resource` - The result of a resource type created via a provider e.g. `S3 Bucket`, `Azure Blob`
-- `Deployment type` - Groups mappings of resource types to providers (see [here](config/samples/cloud_resource_config.yaml)) e.g. `managed`, `workshop`. This provides a layer of abstraction, which allows the end user to not be concerned with _which_ provider is used to deploy the desired resource. 
-- `Deployment tier` - Provides a layer of abstraction, which allows the end user to request a resource of a certain level (for example, a `production` worthy Postgres instance), without being concerned with provider-specific deployment details (such as storage capacity, for example). 
+- `Deployment type` - Groups mappings of resource types to providers (see [here](config/samples/cloud_resource_config.yaml)) e.g. `managed`, `workshop`. This provides a layer of abstraction, which allows the end user to not be concerned with _which_ provider is used to deploy the desired resource.
+- `Deployment tier` - Provides a layer of abstraction, which allows the end user to request a resource of a certain level (for example, a `production` worthy Postgres instance), without being concerned with provider-specific deployment details (such as storage capacity, for example).
 
 ### Design
 There are a few design philosophies for the Cloud Resource Operator:
 - Each resource type (e.g. `BlobStorage`, `Postgres`) should have its own controller
 - The end-user should be abstracted from explicitly specifying how the resource is provisioned by default
-    - What cloud-provider the resource should be provisioned on should be handled in pre-created config objects
+  - What cloud-provider the resource should be provisioned on should be handled in pre-created config objects
 - The end-user should not be abstracted from what provider was used to provision the resource once it's available
-    - If a user requests `BlobStorage` they should be made aware it was created on `Amazon AWS`
+  - If a user requests `BlobStorage` they should be made aware it was created on `Amazon AWS`
 - Deletion of a custom resource should result in the deletion of the resource in the cloud-provider

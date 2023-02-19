@@ -34,7 +34,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-//provider name and default create options
+// provider name and default create options
 const (
 	blobstorageProviderName               = "aws-s3"
 	defaultAwsBucketNameLength            = 40
@@ -109,7 +109,7 @@ func (p *BlobStorageProvider) GetReconcileTime(bs *v1alpha1.BlobStorage) time.Du
 	return resources.GetForcedReconcileTimeOrDefault(defaultReconcileTime)
 }
 
-//S3DeleteStrat custom s3 delete strat
+// S3DeleteStrat custom s3 delete strat
 type S3DeleteStrat struct {
 	_ struct{} `type:"structure"`
 
